@@ -13,25 +13,20 @@ class Solution(object):
         """
         ans = ListNode(0)
         p = ans
-        car = 0
         while l1 and l2:
-            p.next = ListNode(0)
-            p = p.next
-            p.val, car = (l1.val + l2.val + car) % 10, (l1.val + l2.val + car) / 10
-            l1 = l1.next
-            l2 = l2.next
+            p.next = ListNode(l1.val + l2.val + p.val / 10)
+            p.val = p.val % 10
+            p, l1, l2 = p.next, l1.next, l2.next
         while l1:
-            p.next = ListNode(0)
-            p = p.next
-            p.val, car = (l1.val + car) % 10, (l1.val + car) / 10
-            l1 = l1.next
+            p.next = ListNode(l1.val + p.val / 10)
+            p.val = p.val % 10
+            p, l1 = p.next, l1.next
         while l2:
-            p.next = ListNode(0)
+            p.next = ListNode(l2.val + p.val / 10)
+            p.val = p.val % 10
+            p, l2 = p.next, l2.next
+        if (p.val / 10 > 0):
+            p.next = ListNode(p.val / 10)
+            p.val = p.val % 10
             p = p.next
-            p.val, car = (l2.val + car) % 10, (l2.val + car) / 10
-            l2 = l2.next
-        if car != 0:
-            p.next = ListNode(0)
-            p = p.next
-            p.val = car
         return ans.next
